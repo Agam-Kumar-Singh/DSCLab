@@ -53,11 +53,12 @@ test<-subset(data,split==FALSE)
 model<-lm(happiness~income,training)
 summary(model)
 
-test
-pred<-predict(model,test)
+head(test)
+pred<-predict(model,newdata=subset(test,select=c(2)))
 
-install.packages("Metrics")
+#install.packages("Metrics")
 library(Metrics)
 rmse(test$happiness,pred)
 
-ggplot()+geom_point(aes(x=training$income,y=training$happiness))+geom_line(aes(x=training$income,y=predict(model,training)))
+ggplot()+geom_point(aes(x=training$income,y=training$happiness))+geom_line(aes(x=test$income,y=pred))
+
