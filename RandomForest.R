@@ -1,41 +1,26 @@
-data(iris)
-str(iris)
-
-# Installing package
-install.packages("caTools")       # For sampling the dataset
-install.packages("randomForest")  # For implementing random forest algorithm
-
-# Loading package
-library(caTools)
 library(randomForest)
+library(caTools)
+  
 
-# Splitting data in train and test data
-split <- sample.split(iris, SplitRatio = 0.7)
-split
+head(iris)
 
-train <- subset(iris, split == "TRUE")
-test <- subset(iris, split == "FALSE")
+split<-sample.split(SplitRatio = 0.7)
 
-# Fitting Random Forest to the train dataset
-set.seed(120)  # Setting seed
-classifier_RF = randomForest(x = train[-5],
-                             y = train$Species,
-                             ntree = 500)
+train<-subset(iris,split==TRUE)
+test<-subset(iris,split==FALSE)
 
-classifier_RF
+input<-train[,1:4]
+target<-train[,5]
 
-# Predicting the Test set results
-y_pred = predict(classifier_RF, newdata = test[-5])
+model<-randomForest(input,target,ntree=500)
 
-# Confusion Matrix
-confusion_mtx = table(test[, 5], y_pred)
-confusion_mtx
+pred<-predict(model,test)
+pred
 
-# Plotting model
-plot(classifier_RF)
+cm<-table(pred,test$Species)
+cm
 
-# Importance plot
-importance(classifier_RF)
-
-# Variable importance plot
-varImpPlot(classifier_RF)
+plot(model)
+varImpPlot(model)
+summary(model)
+importance(model)
