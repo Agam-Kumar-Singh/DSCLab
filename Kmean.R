@@ -16,3 +16,5 @@ kmean<-kmeans(data,2)
 kmean$centers
 
 autoplot(kmean,data,frame=TRUE)
+library(cluster)
+clusplot(data,kmean$cluster)
